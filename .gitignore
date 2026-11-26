@@ -18,7 +18,8 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Database & Persistent Data Directories
-data/
+/data/
+!public/js/data/
 *.db
 *.sqlite
 *.sqlite3
