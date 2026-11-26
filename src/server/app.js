@@ -158,8 +158,10 @@ const publicDir = path.join(projectRoot, 'public');
 // Serve static assets from public/ if built, and fallback to root
 if (fs.existsSync(publicDir)) {
   app.use(express.static(publicDir));
+  app.use('/public', express.static(publicDir));
 }
 app.use(express.static(staticDir));
+app.use('/public', express.static(staticDir));
 
 // Explicit media asset resolution
 const resolveAssetPath = (filename) => {
