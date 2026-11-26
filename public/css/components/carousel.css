@@ -1,0 +1,603 @@
+/* ============================================================
+   EXPLORE CAPABILITIES — 3D CINEMATIC OVERLAPPING CAROUSEL
+   Inspired by Reference Image 2 (Stacked 3D Depth, Editorial Glass)
+   ============================================================ */
+
+.capabilities-arc-section,
+.capabilities-cinematic-section {
+  background: #000000;
+  color: var(--white);
+  border-top: 1px solid var(--mint-border);
+  border-bottom: 1px solid var(--mint-border);
+  position: relative;
+  overflow: hidden !important;
+  contain: paint !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+}
+
+.cinematic-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+/* 3D Stage Container */
+.cinematic-stage {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  height: 540px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1400px;
+  perspective-origin: center center;
+  user-select: none;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.cinematic-stage.is-dragging {
+  cursor: grabbing;
+}
+
+/* 3D Carousel Scene */
+.cinematic-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Floating Navigation Arrows */
+.cinematic-arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 16, 20, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(101, 210, 197, 0.45);
+  color: var(--mint);
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7), 0 0 16px rgba(101, 210, 197, 0.25);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.cinematic-arrow-prev {
+  left: 24px;
+}
+
+.cinematic-arrow-next {
+  right: 24px;
+}
+
+.cinematic-arrow-btn:hover {
+  background: var(--mint);
+  color: #000000;
+  border-color: var(--mint);
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 0 14px 35px rgba(101, 210, 197, 0.6), 0 0 25px rgba(101, 210, 197, 0.4);
+}
+
+.cinematic-arrow-btn:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+@media (max-width: 768px) {
+  .cinematic-arrow-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 14px;
+  }
+  .cinematic-arrow-prev { left: 8px; }
+  .cinematic-arrow-next { right: 8px; }
+}
+
+/* Atmospheric Side Vignettes */
+.cinematic-vignette {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 140px;
+  z-index: 35;
+  pointer-events: none;
+}
+
+.cinematic-vignette-left {
+  left: 0;
+  background: linear-gradient(to right, #000000 0%, rgba(0, 0, 0, 0.8) 45%, transparent 100%);
+}
+
+.cinematic-vignette-right {
+  right: 0;
+  background: linear-gradient(to left, #000000 0%, rgba(0, 0, 0, 0.8) 45%, transparent 100%);
+}
+
+@media (max-width: 768px) {
+  .cinematic-vignette {
+    width: 50px;
+  }
+}
+
+/* Individual 3D Card */
+.cinematic-card {
+  position: absolute;
+  width: 330px;
+  height: 480px;
+  border-radius: 28px;
+  overflow: hidden;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  background: #090e13;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), 
+              opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), 
+              filter 0.65s cubic-bezier(0.22, 1, 0.36, 1), 
+              box-shadow 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.4s ease;
+  will-change: transform, opacity, filter;
+}
+
+/* Card Surface Sheen */
+.cinematic-card-glass {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.03) 40%, transparent 100%);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Media/Image Layer */
+.cinematic-card-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.cinematic-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+
+.cinematic-card:hover .cinematic-card-img {
+  transform: scale(1.06);
+}
+
+/* Gradient Scrim for crisp typography overlay */
+.cinematic-card-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.1) 25%,
+    rgba(0, 0, 0, 0.35) 55%,
+    rgba(0, 0, 0, 0.88) 82%,
+    rgba(0, 0, 0, 0.98) 100%
+  );
+  pointer-events: none;
+}
+
+/* Card Header (Pill + Action Icon) */
+.cinematic-card-header {
+  position: relative;
+  z-index: 5;
+  padding: 18px 18px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cinematic-card-pill {
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(101, 210, 197, 0.45);
+  color: var(--mint);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.cinematic-card-action {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.cinematic-card-action:hover {
+  background: var(--mint);
+  border-color: var(--mint);
+  color: #000000;
+  transform: scale(1.1);
+}
+
+/* Card Body Overlay (Editorial Content) */
+.cinematic-card-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  padding: 0 22px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.cinematic-card-subtitle {
+  color: var(--mint);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin-bottom: 3px;
+  display: block;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+.cinematic-card-title {
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin: 0 0 6px 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1);
+}
+
+.cinematic-card-desc {
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  line-height: 1.45;
+  margin-bottom: 10px;
+  font-weight: 400;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cinematic-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.cinematic-tag {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+}
+
+/* Card Bottom Controls (Matching Ref 2 Progress line + Next circle) */
+.cinematic-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.cinematic-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.cinematic-card-index {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--mint);
+  letter-spacing: 0.08em;
+}
+
+.cinematic-card-progressbar {
+  flex: 1;
+  max-width: 110px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.cinematic-card-progressline {
+  height: 100%;
+  background: linear-gradient(90deg, #65D2C5, #a8ede5);
+  border-radius: 999px;
+  transition: width 0.45s ease;
+  box-shadow: 0 0 8px rgba(101, 210, 197, 0.8);
+}
+
+.cinematic-card-nextbtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.cinematic-card-nextbtn:hover {
+  background: var(--mint);
+  border-color: var(--mint);
+  color: #000000;
+  transform: scale(1.12);
+  box-shadow: 0 0 16px rgba(101, 210, 197, 0.6);
+}
+
+/* Active Center Card Highlight State */
+.cinematic-card.is-active {
+  border-color: rgba(101, 210, 197, 0.7);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.95), 0 0 35px rgba(101, 210, 197, 0.35);
+}
+
+.cinematic-card.is-active .cinematic-card-glass {
+  border-color: rgba(101, 210, 197, 0.4);
+}
+
+/* Inactive Side Cards: Muted & Subtle Interaction */
+.cinematic-card:not(.is-active) {
+  cursor: pointer;
+}
+
+.cinematic-card:not(.is-active) .cinematic-card-footer {
+  opacity: 0.5;
+}
+
+.cinematic-card:not(.is-active):hover {
+  filter: brightness(0.85) !important;
+  border-color: rgba(101, 210, 197, 0.5);
+}
+
+/* ============================================================
+   FLOATING THUMBNAIL DOCK (Reference Image 2 Style)
+   ============================================================ */
+
+.cinematic-dock-wrapper {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 30;
+  padding: 0 16px;
+}
+
+.cinematic-dock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: rgba(12, 17, 21, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(101, 210, 197, 0.35);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(101, 210, 197, 0.15);
+  max-width: 95vw;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.cinematic-dock::-webkit-scrollbar {
+  display: none;
+}
+
+.cinematic-dock-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(101, 210, 197, 0.35);
+  color: var(--mint);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  outline: none;
+}
+
+.cinematic-dock-btn:hover {
+  background: var(--mint);
+  color: #000000;
+  border-color: var(--mint);
+  transform: scale(1.1);
+  box-shadow: 0 0 14px rgba(101, 210, 197, 0.6);
+}
+
+.cinematic-dock-items {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cinematic-dock-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.cinematic-dock-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  background: #000;
+  flex-shrink: 0;
+}
+
+.cinematic-dock-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cinematic-dock-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.04em;
+  transition: color 0.25s ease;
+  white-space: nowrap;
+}
+
+.cinematic-dock-item:hover .cinematic-dock-avatar {
+  border-color: rgba(101, 210, 197, 0.6);
+  transform: translateY(-2px);
+}
+
+.cinematic-dock-item:hover .cinematic-dock-label {
+  color: #ffffff;
+}
+
+.cinematic-dock-item.is-active .cinematic-dock-avatar {
+  border-color: var(--mint);
+  transform: scale(1.14) translateY(-2px);
+  box-shadow: 0 0 16px rgba(101, 210, 197, 0.9);
+}
+
+.cinematic-dock-item.is-active .cinematic-dock-label {
+  color: var(--mint);
+  font-weight: 800;
+}
+
+/* ============================================================
+   RESPONSIVE ADJUSTMENTS FOR 3D CAROUSEL
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .cinematic-stage {
+    height: 480px;
+  }
+  .cinematic-card {
+    width: 290px;
+    height: 430px;
+    border-radius: 24px;
+  }
+  .cinematic-card-title {
+    font-size: 24px;
+  }
+  .cinematic-card-desc {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cinematic-stage {
+    height: 460px;
+  }
+  .cinematic-card {
+    width: min(84vw, 290px);
+    height: 420px;
+    border-radius: 22px;
+  }
+  .cinematic-card-header {
+    padding: 14px 14px 0;
+  }
+  .cinematic-card-body {
+    padding: 0 16px 16px;
+  }
+  .cinematic-card-title {
+    font-size: 22px;
+  }
+  .cinematic-dock {
+    gap: 4px;
+    padding: 6px 12px;
+  }
+  .cinematic-dock-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  .cinematic-dock-label {
+    font-size: 8.5px;
+  }
+}
+

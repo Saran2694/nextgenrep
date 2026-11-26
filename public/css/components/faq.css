@@ -1,0 +1,49 @@
+/* ============================================================
+   FAQ ACCORDION
+   ============================================================ */
+
+.faq-item {
+  background: var(--glass-bg-light);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--mint-border);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: var(--glass-shadow);
+}
+
+.faq-item:hover {
+  border-color: var(--mint);
+  box-shadow: var(--glass-shadow-mint);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px 24px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--black);
+  transition: background 0.2s ease;
+}
+
+.faq-question:hover {
+  background: rgba(101, 210, 197, 0.08);
+}
+
+.faq-answer {
+  padding: 0 24px 20px;
+  font-size: 13px;
+  color: #444444;
+  line-height: 1.7;
+  border-top: 1px solid rgba(101, 210, 197, 0.12);
+  background: rgba(255, 255, 255, 0.5);
+}
+

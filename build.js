@@ -19,10 +19,24 @@ let warnings = 0;
 console.log('[1/5] Validating JavaScript Code Integrity...');
 const jsFiles = [
   'server.js',
+  'src/server/app.js',
+  'src/server/db.js',
+  'src/server/emailService.js',
   'api/index.js',
   'db.js',
   'emailService.js',
-  'script.js'
+  'script.js',
+  'public/js/utils/helpers.js',
+  'public/js/data/courses.js',
+  'public/js/data/faq.js',
+  'public/js/modules/navigation.js',
+  'public/js/modules/course-renderer.js',
+  'public/js/modules/course-filter.js',
+  'public/js/modules/faq.js',
+  'public/js/modules/booking.js',
+  'public/js/modules/enquiry.js',
+  'public/js/modules/carousel.js',
+  'public/js/main.js'
 ];
 
 for (const file of jsFiles) {
@@ -41,8 +55,8 @@ for (const file of jsFiles) {
   }
 }
 
-// 2. Validate HTML Entrypoints
-console.log('\n[2/5] Validating HTML Entrypoints...');
+// 2. Validate HTML Entrypoints & Stylesheets
+console.log('\n[2/5] Validating HTML Entrypoints & CSS Integrity...');
 const htmlFiles = ['index.html', 'admin.html'];
 for (const file of htmlFiles) {
   const filePath = path.join(__dirname, file);
@@ -52,6 +66,39 @@ for (const file of htmlFiles) {
   } else {
     const size = fs.statSync(filePath).size;
     console.log(`  ✅ HTML valid: ${file} (${size} bytes)`);
+  }
+}
+
+const cssFiles = [
+  'style.css',
+  'updates.css',
+  'public/css/main.css',
+  'public/css/base/variables.css',
+  'public/css/base/reset.css',
+  'public/css/base/typography.css',
+  'public/css/layout/containers.css',
+  'public/css/layout/navigation.css',
+  'public/css/components/buttons.css',
+  'public/css/components/cards.css',
+  'public/css/components/forms.css',
+  'public/css/components/carousel.css',
+  'public/css/components/faq.css',
+  'public/css/components/modals.css',
+  'public/css/sections/hero.css',
+  'public/css/sections/services.css',
+  'public/css/sections/courses.css',
+  'public/css/sections/contact.css',
+  'public/css/pages/admin.css'
+];
+
+for (const file of cssFiles) {
+  const filePath = path.join(__dirname, file);
+  if (!fs.existsSync(filePath)) {
+    console.error(`  ❌ Missing CSS stylesheet: ${file}`);
+    errors++;
+  } else {
+    const size = fs.statSync(filePath).size;
+    console.log(`  ✅ CSS valid: ${file} (${size} bytes)`);
   }
 }
 
@@ -96,7 +143,14 @@ const criticalAssets = [
   'assets/home.images/home.images/automative trouble.jpeg',
   'assets/home.images/home.images/vehicle dynamic.jpeg',
   'assets/home.images/home.images/ai in automative.jpeg',
-  'assets/home.images/home.images/ev battery.png'
+  'assets/home.images/home.images/ev battery.png',
+  // Organized Public Assets Structure Verification
+  'public/assets/brand/logo.jpeg',
+  'public/assets/videos/vid1.mp4',
+  'public/assets/images/hero/h1.jpg',
+  'public/assets/images/about/about.png',
+  'public/assets/images/disciplines/cloud-architect.jpg',
+  'public/assets/images/courses/ai.png'
 ];
 
 let assetsFound = 0;
@@ -121,11 +175,14 @@ if (!fs.existsSync(publicDir)) {
 
 // Mirror entrypoints into public for environments requiring explicit public directory
 try {
-  ['index.html', 'admin.html', 'script.js', 'logo.jpeg', 'h1.jpg', 'h2.jpg', 'about.png', 'sam.png', 'vid1.mp4'].forEach(f => {
+  ['index.html', 'admin.html', 'style.css', 'updates.css', 'script.js', 'logo.jpeg', 'h1.jpg', 'h2.jpg', 'about.png', 'sam.png', 'vid1.mp4'].forEach(f => {
     const src = path.join(__dirname, f);
     const dest = path.join(publicDir, f);
     if (fs.existsSync(src)) {
       fs.copyFileSync(src, dest);
+    } else if (['index.html', 'admin.html', 'style.css', 'updates.css', 'script.js'].includes(f)) {
+      console.error(`  ❌ Missing required frontend asset: ${f}`);
+      errors++;
     }
   });
 

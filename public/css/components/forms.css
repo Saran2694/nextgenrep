@@ -1,0 +1,42 @@
+/* Glass Input & Select */
+.glass-input {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: var(--glass-blur-sm);
+  -webkit-backdrop-filter: var(--glass-blur-sm);
+  border: 1px solid var(--mint-border);
+  color: var(--black);
+  font-size: 13px;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.glass-input:focus {
+  border-color: var(--mint);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(101, 210, 197, 0.30);
+}
+
+.glass-input::placeholder {
+  color: #888888;
+}
+
+
+/* ============================================================
+   RAZORPAY BOOKING & PAYMENT OPTION STYLES
+   ============================================================ */
+.payment-option-card {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.payment-option-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #65D2C5;
+}
+.payment-option-card.active-option {
+  border-color: #65D2C5 !important;
+  background: rgba(101, 210, 197, 0.12) !important;
+  box-shadow: 0 0 20px rgba(101, 210, 197, 0.2);
+}
+

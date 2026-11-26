@@ -1,0 +1,31 @@
+/* ============================================================
+   TYPOGRAPHY HELPERS
+   ============================================================ */
+
+.font-display {
+  font-family: var(--font-display) !important;
+  letter-spacing: 0.04em;
+}
+
+.font-mono {
+  font-family: var(--font-mono) !important;
+}
+
+.brand-gradient-text {
+  background: linear-gradient(120deg, #000000 20%, #4dbcb0 60%, #65D2C5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.mint-gradient-text {
+  background: linear-gradient(120deg, #65D2C5 0%, #a8ede5 60%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.text-mint {
+  color: var(--mint) !important;
+}
+

@@ -1,0 +1,67 @@
+/* ============================================================
+   NEXTGEN DMA VENTURES — PREMIUM GLASSMORPHISM DESIGN SYSTEM
+   Brand Palette:
+     - Pure White: #FFFFFF
+     - Pure Black: #000000
+     - Mint Teal:  #65D2C5
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  /* Three Primary Brand Colours Only */
+  --white:        #FFFFFF;
+  --black:        #000000;
+  --mint:         #65D2C5;
+  --mint-light:   #8ae2d8;
+  --mint-dark:    #4dbcb0;
+  --mint-glow:    rgba(101, 210, 197, 0.25);
+  --mint-border:  rgba(101, 210, 197, 0.30);
+  --mint-border-strong: rgba(101, 210, 197, 0.65);
+
+  /* Glassmorphism Design Tokens */
+  --glass-bg-light:      rgba(255, 255, 255, 0.75);
+  --glass-bg-light-soft: rgba(255, 255, 255, 0.50);
+  --glass-bg-dark:       rgba(0, 0, 0, 0.75);
+  --glass-bg-dark-soft:  rgba(0, 0, 0, 0.55);
+  --glass-bg-translucent:rgba(255, 255, 255, 0.08);
+
+  --glass-blur:          blur(20px);
+  --glass-blur-sm:       blur(12px);
+  --glass-blur-lg:       blur(30px);
+
+  --glass-border-light:  rgba(101, 210, 197, 0.30);
+  --glass-border-subtle: rgba(255, 255, 255, 0.20);
+  --glass-border-dark:   rgba(101, 210, 197, 0.35);
+
+  --glass-shadow:        0 8px 32px rgba(0, 0, 0, 0.08);
+  --glass-shadow-lg:     0 20px 50px rgba(0, 0, 0, 0.14);
+  --glass-shadow-dark:   0 16px 40px rgba(0, 0, 0, 0.45);
+  --glass-shadow-mint:   0 8px 32px rgba(101, 210, 197, 0.20);
+
+  /* Typography */
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'Space Grotesk', monospace;
+
+  /* Black to Mint Teal Gradient */
+  --brand-gradient:      linear-gradient(135deg, #000000 0%, #1f403c 45%, #65D2C5 100%);
+  --brand-gradient-text: linear-gradient(120deg, #000000 15%, #2a665f 55%, #65D2C5 100%);
+  --mint-gradient-text:  linear-gradient(120deg, #65D2C5 0%, #ffffff 100%);
+}
+
+
+/* ============================================================
+   NEXTGEN DMA VENTURES — GLASSMORPHISM ENHANCEMENTS
+   Palette: #FFFFFF (White) + #000000 (Black) + #65D2C5 (Mint Teal)
+   ============================================================ */
+
+:root {
+  --logo-colour: #65D2C5;
+  --logo-colour-deep: #000000;
+  --logo-colour-soft: #F7F9F8;
+  --revision-ink: #000000;
+  --revision-white: #FFFFFF;
+  --revision-line: rgba(101, 210, 197, 0.30);
+}
+
