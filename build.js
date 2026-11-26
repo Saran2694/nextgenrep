@@ -19,10 +19,16 @@ let warnings = 0;
 console.log('[1/5] Validating JavaScript Code Integrity...');
 const jsFiles = [
   'server.js',
+  'app.js',
+  'src/app.js',
+  'src/server.js',
   'src/server/app.js',
   'src/server/db.js',
   'src/server/emailService.js',
   'api/index.js',
+  'public/app.js',
+  'public/server.js',
+  'public/index.js',
   'db.js',
   'emailService.js',
   'script.js',
@@ -201,7 +207,17 @@ try {
     }
   };
   copyDirRecursive(path.join(__dirname, 'assets'), path.join(publicDir, 'assets'));
-  console.log('  ✅ Synchronized production static assets into public/ directory.');
+
+  // Ensure canonical Express application entrypoints exist in public/ for Vercel
+  const publicEntryContent = `// Canonical Express Application Entrypoint for Vercel Express Framework Preset in public/
+const app = require('../src/server/app');
+module.exports = app;
+`;
+  fs.writeFileSync(path.join(publicDir, 'app.js'), publicEntryContent, 'utf8');
+  fs.writeFileSync(path.join(publicDir, 'server.js'), publicEntryContent, 'utf8');
+  fs.writeFileSync(path.join(publicDir, 'index.js'), publicEntryContent, 'utf8');
+
+  console.log('  ✅ Synchronized production static assets & Vercel entrypoints into public/ directory.');
 } catch (e) {
   console.warn('  ⚠️ Asset synchronization notice:', e.message);
   warnings++;
