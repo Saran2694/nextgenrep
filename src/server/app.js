@@ -1409,16 +1409,30 @@ app.use((err, req, res, next) => {
 
 // Start Server (Standalone or Local development)
 if (!process.env.VERCEL && process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
-    console.log(`\n============================================================`);
-    console.log(`🚀 NEXTGEN DMA VENTURES SERVER RUNNING`);
-    console.log(`🌐 Public Website: http://localhost:${PORT}`);
-    console.log(`🔒 Admin Panel   : http://localhost:${PORT}/admin`);
-    console.log(`🔑 Admin Login   : ${defaultAdminEmail}`);
-    console.log(`🔐 Admin Status  : ${defaultAdminPassword || defaultAdminHash ? '[SECURED VIA ENV]' : '[PENDING CONFIGURATION]'}`);
-    console.log(`💳 Razorpay Mode : ${isRazorpayConfigured ? (RAZORPAY_KEY_ID.startsWith('rzp_test') ? 'TEST' : 'LIVE') : 'DISABLED (CREDENTIALS MISSING / PLACEHOLDER)'}`);
-    console.log(`============================================================\n`);
-  });
+  const startServer = (portToTry) => {
+    const serverInstance = app.listen(portToTry, () => {
+      console.log(`\n============================================================`);
+      console.log(`🚀 NEXTGEN DMA VENTURES SERVER RUNNING`);
+      console.log(`🌐 Public Website: http://localhost:${portToTry}`);
+      console.log(`🔒 Admin Panel   : http://localhost:${portToTry}/admin`);
+      console.log(`🔑 Admin Login   : ${defaultAdminEmail}`);
+      console.log(`🔐 Admin Status  : ${defaultAdminPassword || defaultAdminHash ? '[SECURED VIA ENV]' : '[PENDING CONFIGURATION]'}`);
+      console.log(`💳 Razorpay Mode : ${isRazorpayConfigured ? (RAZORPAY_KEY_ID.startsWith('rzp_test') ? 'TEST' : 'LIVE') : 'DISABLED (CREDENTIALS MISSING / PLACEHOLDER)'}`);
+      console.log(`============================================================\n`);
+    });
+
+    serverInstance.on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        const nextPort = Number(portToTry) + 1;
+        console.warn(`⚠️ Port ${portToTry} is already in use. Retrying automatically on port ${nextPort}...`);
+        startServer(nextPort);
+      } else {
+        console.error('Server error:', err.message);
+      }
+    });
+  };
+
+  startServer(PORT);
 }
 
 // Internal helper for unit test mocking
